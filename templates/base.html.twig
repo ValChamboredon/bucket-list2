@@ -1,45 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Bucket-List{% endblock %}</title>
-    <link rel="icon" href="{{ asset('/images/logo.svg') }}">
+    <link rel="icon" href="{{ asset('/images/favicon.png') }}">
     {% block stylesheets %}
     {% endblock %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
 </head>
 <body class="d-flex flex-column min-vh-100">
-<header class="bg-dark text-white p-3 mb-4">
-    <div class="container d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center">
-            <img src="{{ asset('images/logo.png') }}" height="50">
-            <h1 class="h4 mb-0 ml-3">Bucket-List</h1>
+    <header class="bg-dark text-white p-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <a class="nav-link text-white" href="{{ path('main_home') }}">
+                    <img src="{{ asset('images/logo.png') }}" alt="logo" height="50">
+                </a>
+                <h1 class="h4 mb-0 ms-3">Bucket-List</h1>
+            </div>
+            <nav class="d-flex flex-column align-items-center">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('main_home') }}">Home</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
-        <nav>
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/">Home</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</header>
+    </header>
 
-<main class="container">
-    {% block body %}
-    {% endblock %}
-</main>
+    <main class="container">
+        {% block body %}
+        {% endblock %}
+    </main>
 
-<footer class="bg-light text-center py-3 mt-auto">
-    <p>©Bucket-List - 2025</p>
-</footer>
-
-{% block javascripts %}
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-{% endblock %}
+    <footer class="bg-light text-center py-3 mt-auto">
+        <p>©Bucket-List - {{ 'now'|date('Y') }} </p>
+    </footer>
 </body>
 </html>
 
