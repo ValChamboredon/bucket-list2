@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>All wishes!</h1>
+            <ul class=" list-group ">
+                {% for index, wish in wishes %}
+                    <li>
+                        <a href="{{ path('app_wish_detail', { 'id': index+1 }) }}">{{ wish }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+{% block title %}
+{% endblock %}

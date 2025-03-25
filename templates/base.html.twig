@@ -11,7 +11,7 @@
     {% endblock %}
 </head>
 <body class="d-flex flex-column min-vh-100">
-    <header class="bg-dark text-white p-3">
+    <header class="bg-secondary text-white p-3">
         <div class="container d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
                 <a class="nav-link text-white" href="{{ path('main_home') }}">
@@ -23,6 +23,12 @@
                 <ul class="nav">
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{ path('main_home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('main_about_us') }}">About us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('app_wish_list') }}">Wish list</a>
                     </li>
                 </ul>
             </nav>
