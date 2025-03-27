@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Wish list{% endblock %}
+{% block title %}{{ wish.title }}{% endblock %}
 
 {% block body %}
-    <h2>Détail du wish {{ id }} Titre de l'idée ici</h2>
+    <h1>{{ wish.title }}</h1>
+    <p>Publié par {{ wish.author }} le {{ wish.dateCreated|date('d/m/Y H:i') }}</p>
+    <p>{{ wish.description }}</p>
+    <a href="{{ path('app_wish_list') }}" class="btn btn-secondary">Retour à la liste</a>
 {% endblock %}
