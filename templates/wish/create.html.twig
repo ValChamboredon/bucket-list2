@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ wishForm.vars.value.id is null ? 'Créer une nouvelle idée' : 'Modifier une idée' }}
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="mb-4">
+            {{ wishForm.vars.value.id is null ? 'Créer une idée' : 'Modifier l’idée' }}
+        </h1>
+
+        {{ form_start(wishForm) }}
+        {{ form_row(wishForm.title) }}
+        {{ form_row(wishForm.description) }}
+        {{ form_row(wishForm.author) }}
+        {{ form_row(wishForm.category) }}
+        {{ form_row(wishForm.isPublished) }}
+
+        <button class="btn btn-primary">
+            {{ wishForm.vars.value.id is null ? 'Créer' : 'Modifier' }}
+        </button>
+        {{ form_end(wishForm) }}
+
+        {% if wishForm.vars.value.id is not null %}
+            <div class="text-center mt-4">
+                <a href="{{ path('wish_delete', {
+                    id: wishForm.vars.value.id,
+                    token: csrf_token('delete' ~ wishForm.vars.value.id)
+                }) }}"
+                   class="btn btn-danger"
+                   title="Supprimer l’idée">
+                    Supprimer
+                </a>
+            </div>
+        {% endif %}
+
+        <div class="mt-3">
+            <a href="{{ path('app_wish_list') }}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+{% endblock %}
+

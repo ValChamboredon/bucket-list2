@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\WishRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: WishRepository::class)]
 class Wish
@@ -15,9 +16,22 @@ class Wish
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Please provide an idea!')]
+    #[Assert\Length(
+        min: 5,
+        max: 255,
+        minMessage: 'Minimum {{ limit }} characters please!',
+        maxMessage: 'Maximum {{ limit }} characters please!'
+    )]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(
+        min: 5,
+        max: 5000,
+        minMessage: "Minimum {{ limit }} characters please!",
+        maxMessage: "Maximum {{ limit }} characters please!"
+    )]
     private ?string $description = null;
 
     #[ORM\Column(length: 50)]
@@ -31,6 +45,10 @@ class Wish
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateUpdated = null;
+
+    #[ORM\ManyToOne(inversedBy: 'wishes')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Category $category = null;
 
     public function getId(): ?int
     {
@@ -105,6 +123,18 @@ class Wish
     public function setDateUpdated(?\DateTimeInterface $dateUpdated): static
     {
         $this->dateUpdated = $dateUpdated;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }

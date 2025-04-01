@@ -5,6 +5,28 @@
 {% block body %}
     <h1>{{ wish.title }}</h1>
     <p>Publié par {{ wish.author }} le {{ wish.dateCreated|date('d/m/Y H:i') }}</p>
+
+    {% if wish.category %}
+        <p><strong>Catégorie :</strong> {{ wish.category.name }}</p>
+    {% endif %}
+
     <p>{{ wish.description }}</p>
-    <a href="{{ path('app_wish_list') }}" class="btn btn-secondary">Retour à la liste</a>
+
+    {% if wish.id %}
+        <div class="text-center">
+            <a href="{{ path('wish_delete', {'id': wish.id, 'token': csrf_token('delete' ~ wish.id)}) }}"
+               class="btn btn-danger mt-2"
+               title="Supprimer le souhait">
+                Supprimer
+            </a>
+            <a href="{{ path('wish_update', {'id': wish.id}) }}"
+               class="btn btn-secondary mt-2"
+               title="Modifier le souhait">
+                Modifier
+            </a>
+        </div>
+    {% endif %}
+
+    <a href="{{ path('app_wish_list') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
 {% endblock %}
+
