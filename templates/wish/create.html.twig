@@ -1,3 +1,5 @@
+{# templates/wish/create.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}
@@ -13,7 +15,7 @@
         {{ form_start(wishForm) }}
         {{ form_row(wishForm.title) }}
         {{ form_row(wishForm.description) }}
-        {{ form_row(wishForm.author) }}
+
         {{ form_row(wishForm.category) }}
         {{ form_row(wishForm.isPublished) }}
 
@@ -40,4 +42,3 @@
         </div>
     </div>
 {% endblock %}
-

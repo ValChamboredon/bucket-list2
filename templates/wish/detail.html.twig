@@ -1,32 +1,66 @@
+{# templates/wish/detail.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ wish.title }}{% endblock %}
 
 {% block body %}
     <h1>{{ wish.title }}</h1>
-    <p>Publié par {{ wish.author }} le {{ wish.dateCreated|date('d/m/Y H:i') }}</p>
 
     {% if wish.category %}
         <p><strong>Catégorie :</strong> {{ wish.category.name }}</p>
     {% endif %}
 
     <p>{{ wish.description }}</p>
+    <p>Créé par : {{ wish.user.getPseudo() }}</p>
 
-    {% if wish.id %}
-        <div class="text-center">
-            <a href="{{ path('wish_delete', {'id': wish.id, 'token': csrf_token('delete' ~ wish.id)}) }}"
+    <div class="text-center">
+        {% if app.user == wish.user or is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('wish_delete', {'id': wish.id, 'token': csrf_token('delete'~wish.id)}) }}"
                class="btn btn-danger mt-2"
-               title="Supprimer le souhait">
-                Supprimer
+               title="Delete the wish">
+                Delete
             </a>
-            <a href="{{ path('wish_update', {'id': wish.id}) }}"
+        {% endif %}
+        {% if app.user == wish.user %}
+            <a href="{{ path('wish_update', {'id': wish.id }) }}"
                class="btn btn-secondary mt-2"
-               title="Modifier le souhait">
-                Modifier
+               title="Modify the wish">
+                Modify
             </a>
+        {% endif %}
+    </div>
+
+    <h2>Commentaires</h2>
+    {% for comment in wish.comments %}
+        <div class="mb-4 border p-3 rounded shadow-sm">
+            <p>Créé par : {{ wish.user.getPseudo() }}</p>
+            <p>{{ comment.rating }}/5</p>
+            <p>{{ comment.content }}</p>
+            <p><small>{{ comment.createdAt|date('d/m/Y H:i') }}</small></p>
+            {% if app.user == wish.user %}
+                <form method="post" action="{{ path('comment_delete', {'id': comment.id}) }}" style="display:inline;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+                <a href="{{ path('comment_edit', {'id': comment.id}) }}" class="btn btn-secondary">Modify</a>
+
+            {% endif %}
         </div>
+    {% else %}
+        <p>Aucun commentaire pour le moment.</p>
+    {% endfor %}
+
+    {% if app.user != wish.user %}
+        <h3>Ajouter un commentaire</h3>
+        {{ form_start(commentForm) }}
+        {{ form_row(commentForm.content) }}
+        {{ form_row(commentForm.rating) }}
+        <button class="btn btn-primary">Ajouter</button>
+        {{ form_end(commentForm) }}
+    {% else %}
+        <p>Vous ne pouvez pas ajouter de commentaire à votre propre wish.</p>
     {% endif %}
 
     <a href="{{ path('app_wish_list') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
 {% endblock %}
-

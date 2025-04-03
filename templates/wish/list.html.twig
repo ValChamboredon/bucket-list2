@@ -8,12 +8,13 @@
     {% for wish in wishes %}
         <div class="mb-4 border p-3 rounded shadow-sm">
             <h3>
+                <p>Créé par : {{ wish.user.getPseudo() }}</p>
                 <a href="{{ path('app_wish_detail', {'id': wish.id}) }}">{{ wish.title }}</a>
                 {% if wish.category %}
                     <small class="text-muted"> - {{ wish.category.name }}</small>
                 {% endif %}
             </h3>
-            <p><strong>Auteur :</strong> {{ wish.author }}</p>
+
             <p>{{ wish.description|length > 200 ? wish.description|slice(0, 200) ~ '...' : wish.description }}</p>
             <a href="{{ path('app_wish_detail', {'id': wish.id}) }}" class="btn btn-primary btn-sm">
                 Voir le détail

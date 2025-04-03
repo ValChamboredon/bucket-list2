@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le commentaire{% endblock %}
+
+{% block body %}
+    <h1>Modifier le commentaire</h1>
+
+    {{ form_start(commentForm) }}
+    {{ form_row(commentForm.content) }}
+    {{ form_row(commentForm.rating) }}
+    <button class="btn btn-primary">Modifier</button>
+    {{ form_end(commentForm) }}
+
+    <a href="{{ path('app_wish_detail', {'id': comment.wish.id}) }}" class="btn btn-secondary mt-3">Retour</a>
+{% endblock %}

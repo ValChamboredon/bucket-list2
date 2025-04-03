@@ -11,35 +11,50 @@
     {% endblock %}
 </head>
 <body class="d-flex flex-column min-vh-100">
-    <header class="bg-secondary text-white p-3">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
-                <a class="nav-link text-white" href="{{ path('main_home') }}">
-                    <img src="{{ asset('images/logo.png') }}" alt="logo" height="50">
-                </a>
-                <h1 class="h4 mb-0 ms-3">Bucket-List</h1>
-            </div>
-            <nav class="d-flex flex-column align-items-center">
-                <ul class="nav">
+<header class="bg-secondary text-white p-3">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <a class="nav-link text-white" href="{{ path('main_home') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="logo" height="50">
+            </a>
+            <h1 class="h4 mb-0 ms-3">Bucket-List</h1>
+        </div>
+        <nav class="d-flex flex-column align-items-center">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ path('main_home') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ path('main_about_us') }}">About us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ path('app_wish_list') }}">Wish list</a>
+                </li>
+
+                {% if app.user %}
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ path('main_home') }}">Home</a>
+                        <span class="nav-link text-white">Hello {{ app.user.pseudo }}!</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ path('main_about_us') }}">About us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ path('app_wish_list') }}">Wish list</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('wish_create') }}"
-                           title="Add your own ideas!">
+                        <a class="nav-link text-white" href="{{ path('wish_create') }}" title="Add your own ideas!">
                             Add yours!
                         </a>
                     </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('app_logout') }}">Se déconnecter</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('app_login') }}">Se connecter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('app_register') }}">S'inscrire</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</header>
 
     <main class="container">
         {% block body %}
