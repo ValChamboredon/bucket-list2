@@ -9,6 +9,7 @@ use App\Form\CommentType;
 use App\Form\WishType;
 use App\Repository\CommentRepository;
 use App\Repository\WishRepository;
+use App\Services\CensuratorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,13 +67,18 @@ final class WishController extends AbstractController
     }
 
     #[Route('/wishes/create', name: 'wish_create', methods: ['GET', 'POST'])]
-    public function create(Request $request, EntityManagerInterface $em): Response
+    public function create(Request $request, EntityManagerInterface $em, CensuratorService $censuratorService): Response
     {
         $wish = new Wish();
         $wishForm = $this->createForm(WishType::class, $wish);
         $wishForm->handleRequest($request);
 
         if ($wishForm->isSubmitted() && $wishForm->isValid()) {
+
+            $cleanDescription = $censuratorService->purify($wish->getDescription());
+            $wish->setDescription($cleanDescription);
+
+
             $wish->setIsPublished(true);
             $wish->setDateCreated(new \DateTime());
             $wish->setUser($this->getUser());
